@@ -19,3 +19,11 @@ class Items(models.Model):
 	warehouse_location = models.ForeignKey(Warehouse,on_delete=models.CASCADE)
 	def __unicode__(self):
 		return self.item_name
+
+class Log(models.Model):
+	log_id = models.AutoField(primary_key=True)
+	location_from = models.ForeignKey(Warehouse,on_delete=models.CASCADE,null=True,related_name='requests_from')
+	location_to = models.ForeignKey(Warehouse,on_delete=models.CASCADE,related_name='requests_to')
+	item_name = models.CharField(max_length=50)
+	qty = models.IntegerField()
+	time = models.DateTimeField(auto_now=True)

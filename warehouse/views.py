@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse
-from . models import Warehouse, Items
+from . models import Warehouse, Items, Log
 
 # Create your views here.
 def index(request):
@@ -15,6 +15,8 @@ def index(request):
 			Item = Items.objects.get(warehouse_location=warehouse_loc.location_id,item_name=item)
 			Item.qty = Item.qty+int(add_qty)
 			Item.save()
+			log = Log.objects.create(item_name=item,qty=add_qty,location_to=warehouse_loc)
+			log.save()
 		else:
 			add_qty = request.POST['input_qty2']
 			location,item = request.POST['location'].split("_")
@@ -33,11 +35,13 @@ def index(request):
 				
 				Item_to.qty = Item_to.qty+int(add_qty)
 				Item_to.save()
+				log = Log.objects.create(item_name=item,qty=add_qty,location_from=warehouse_loc_from,location_to=warehouse_loc_to)
+				log.save()
 			else:
-				
 				Item_to = Items.objects.create(item_name=item,qty=add_qty,warehouse_location=warehouse_loc_to)
 				Item_to.save()
-		
+				log = Log.objects.create(item_name=item,qty=add_qty,location_from=warehouse_loc_from,location_to=warehouse_loc_to)
+				log.save()
 	all_location = Warehouse.objects.all()
 	loc_imgs = {}
 	response = {}
