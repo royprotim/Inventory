@@ -1,0 +1,100 @@
+{% extends "mainpage.html" %}
+<!-- {% load static %} -->
+{% block content %}
+
+<div class="row">
+
+{% for loc,item in response.items %}
+<div class="col s12 m6 l4">
+<div class="card">
+	<h1>{{loc_cities.loc}}</h1>
+
+	<div class="card-image waves-effect waves-block waves-light">
+      <img class="activator" src="/static/{{loc_cities.Kolkata}}">
+    </div>
+    <div class="card-content">
+      <span class="card-title activator grey-text text-darken-4">{{loc}}<i class="material-icons right">more_vert</i></span>
+      <p><a href="#">This is a link</a></p>
+    </div>
+    <div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">{{loc}}<i class="material-icons right">close</i></span>
+      <table>
+      	<thead>
+      		<tr>
+      			<th>Item</th>
+      			<th>Quantity</th>
+      			<th></th>
+      			<th></th>
+      		</tr>
+      	</thead>
+      	<tbody>
+      		{% for i in item %}
+      		{% for key,val in i.items %}
+      		<tr>
+      			<td>{{key}}</td>
+      			<td>{{val}}</td>
+      			<td>  <a class="btn-floating waves-effect waves-light red modal-trigger" href="#{{loc}}_{{key}}_add"><i class="material-icons">add</i></a>
+      			<div id="{{loc}}_{{key}}_add" class="modal">
+    <div class="modal-content">
+      <h4>Add {{key}} to {{loc}}</h4>
+      <form action="/warehouse/" method="post">{% csrf_token %}
+      	<div class="input-field">
+      		<input type="hidden" name="location" value="{{loc}}_{{key}}">
+            <input id="input_qty" type="number" name="input_qty" data-length="10">
+            <label for="input_qty">Quantity</label>
+        </div>
+      </form>
+    </div>
+    
+  </div></td>
+  			<td><a class="btn-floating waves-effect waves-light red modal-trigger" href="#{{loc}}_{{key}}_move"><i class="material-icons">arrow_forward</i></a>
+  			<div id="{{loc}}_{{key}}_move" class="modal">
+    <div class="modal-content">
+      <h4>Choose a location to move {{key}}</h4>
+      <form action="/warehouse/" method="post">{% csrf_token %}
+      	<div class="input-field col s12">
+	    
+	      {% for k,v in loc_cities.items %}
+	      {% if k != loc %}
+	      <p>
+		      <label>
+		        <input name="to_location" type="radio" value="{{k}}" />
+		        <span>{{k}}</span>
+		      </label>
+		    </p>
+	      {% endif %}
+	      {% endfor %}
+	       <div class="input-field">
+          <input type="hidden" name="location" value="{{loc}}_{{key}}">
+            <input id="input_qty" type="number" name="input_qty2" data-length="10">
+            <label for="input_qty">Quantity</label>
+        </div>
+	  </div>
+      </form>
+    </div>
+    
+  </div>
+  			</td>
+      		</tr>
+      		{% endfor %}
+      		{% endfor %}
+      	</tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+ {% endfor %} 
+ </div>
+<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+{% endblock %}
