@@ -37,7 +37,7 @@
       			<div id="{{loc}}_{{key}}_add" class="modal">
     <div class="modal-content">
       <h4>Add {{key}} to {{loc}}</h4>
-      <form action="/warehouse/" method="post">{% csrf_token %}
+      <form action="/warehouse/add/" method="post">{% csrf_token %}
       	<div class="input-field">
       		<input type="hidden" name="location" value="{{loc}}_{{key}}">
             <input id="input_qty" type="number" name="input_qty" data-length="10">
@@ -56,7 +56,7 @@
   			<div id="{{loc}}_{{key}}_move" class="modal">
     <div class="modal-content">
       <h4>Choose a location to move {{key}}</h4>
-      <form action="/warehouse/" method="post">{% csrf_token %}
+      <form action="/warehouse/move/" method="post">{% csrf_token %}
       	<div class="input-field col s12">
 	    
 	      {% for k,v in loc_cities.items %}
