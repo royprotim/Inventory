@@ -49,3 +49,14 @@ def index(request):
 		response[loc.city] = items
 	print loc_imgs['Kolkata']
 	return render(request,"home.html",{'loc_cities':loc_imgs,'response':response})
+
+def report(request):
+	all_location = Warehouse.objects.all()
+	response = {}
+	for loc in all_location:
+		loc_items = Items.objects.all().filter(warehouse_location=loc)
+		items = []
+		for i in loc_items:
+			items.append({i.item_name:i.qty})
+		response[loc.city] = items
+	return render(request,"report.html",{'response':response})

@@ -1,0 +1,30 @@
+{% extends "mainpage.html" %}
+<!-- {% load static %} -->
+{% block content %}
+
+<table class="centered">
+	<thead>
+		<tr>
+			
+			<th>Item</th>
+			<th>Balance Qty</th>
+			<th>Location</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for loc,item in response.items %}
+		{% for i in item %}
+      	{% for key,val in i.items %}
+      	<tr>
+      		
+      		<td>{{key}}</td>
+      		<td>{{val}}</td>
+      		<td>{{loc}}</td>
+      	</td>
+      	{% endfor %}
+      	{% endfor %}
+      	{% endfor %}
+	</tbody>
+</table>
+
+{% endblock %}
